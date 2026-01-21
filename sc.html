@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Security Check | SpiderCloud</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --bg:#070001;
+  --red:#ff2b2b;
+  --glow:rgba(255,43,43,.75);
+  --dim:#c58b8b;
+}
+
+/* General */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  background:var(--bg);
+  color:#fff;
+  font-family:Inter,system-ui,sans-serif;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:none; /* hide default cursor for desktop */
+}
+
+/* Custom Cursor */
+.cursor{
+  position:fixed;
+  top:0;
+  left:0;
+  width:18px;
+  height:18px;
+  border:2px solid var(--red);
+  border-radius:50%;
+  pointer-events:none;
+  mix-blend-mode:difference;
+  transform:translate(-50%, -50%);
+  transition:transform 0.05s ease-out;
+  z-index:9999;
+  box-shadow:0 0 10px var(--glow),0 0 5px var(--red);
+}
+
+/* Background Animations */
+.bg, .bg2, .bg3{
+  position:fixed; inset:0;
+  pointer-events:none;
+}
+
+.bg{
+  background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(255,43,43,.06) 2px,rgba(255,43,43,.06) 3px);
+  animation:drift 25s linear infinite;
+}
+
+.bg2{
+  background:repeating-linear-gradient(90deg,transparent 0,transparent 2px,rgba(255,43,43,.04) 2px,rgba(255,43,43,.04) 3px);
+  animation:drift2 35s linear infinite;
+  opacity:.6;
+}
+
+.bg3{
+  background:radial-gradient(circle, rgba(255,43,43,.05) 0%, transparent 70%);
+  animation:drift3 45s linear infinite;
+  opacity:.3;
+}
+
+@keyframes drift{from{background-position:0 0}to{background-position:0 300px}}
+@keyframes drift2{from{background-position:0 0}to{background-position:300px 0}}
+@keyframes drift3{from{background-position:0 0}to{background-position:200px 200px}}
+
+/* Main content */
+.center{
+  position:relative;
+  z-index:5;
+  text-align:center;
+  max-width:640px;
+  padding:0 20px;
+}
+
+/* Animated Ring */
+.core{
+  width:120px;
+  height:120px;
+  margin:0 auto 22px;
+  border-radius:50%;
+  border:2px solid var(--red);
+  box-shadow:0 0 40px var(--glow);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  animation:pulse 2s infinite, floaty 4s ease-in-out infinite;
+  position:relative;
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.06);opacity:.85}
+}
+
+@keyframes floaty{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+.core img{
+  width:58px;
+  height:58px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 12px var(--glow));
+  animation:logoGlow 2s infinite;
+}
+
+@keyframes logoGlow{
+  0%,100%{filter:drop-shadow(0 0 12px var(--glow))}
+  50%{filter:drop-shadow(0 0 25px var(--glow))}
+}
+
+/* Text */
+.brand{
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:4px;
+  color:var(--red);
+  text-shadow:0 0 18px var(--glow);
+  margin-bottom:8px;
+  animation:shakeText 3s ease-in-out infinite;
+}
+
+@keyframes shakeText{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-2px)}
+  75%{transform:translateX(2px)}
+}
+
+.subtitle{
+  font-size:12px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--dim);
+  margin-bottom:25px;
+}
+
+.message{
+  font-size:15px;
+  color:var(--dim);
+  margin-bottom:30px;
+}
+
+/* captcha container */
+.challenge{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:30px;
+}
+
+/* status bar */
+.status{
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--red);
+  animation:statusPulse 2s infinite;
+}
+
+@keyframes statusPulse{
+  0%,100%{opacity:1}
+  50%{opacity:.6}
+}
+
+/* metadata */
+.meta{
+  margin-top:14px;
+  font-size:11px;
+  color:var(--dim);
+  line-height:1.7;
+  opacity:.85;
+}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="bg2"></div>
+<div class="bg3"></div>
+
+<div class="center">
+  <!-- Core Ring + Logo -->
+  <div class="core">
+    <img src="/assets/eiro.png" alt="SpiderCloud">
+  </div>
+
+  <div class="brand">SpiderCloud</div>
+  <div class="subtitle">Advanced Threat Protection</div>
+
+  <div class="message">
+    Verifying your browser integrity and connection behavior.<br>
+    This process usually completes within a few seconds.
+  </div>
+
+  <!-- REQUIRED BY CLOUDFLARE -->
+  <div class="challenge">
+    ::CAPTCHA_BOX::
+  </div>
+
+  <div class="status">
+    Status: Analyzing Client Environment
+  </div>
+
+  <div class="meta">
+    IP: ::CLIENT_IP::<br>
+    ASN: ::ASN::<br>
+    Ray ID: ::RAY_ID::
+  </div>
+</div>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+
+<script>
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove', e=>{
+  cursor.style.transform=`translate(${e.clientX}px, ${e.clientY}px)`;
+});
+</script>
+
+</body>
+</html>
