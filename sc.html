@@ -25,7 +25,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  cursor:none; /* hide default cursor for desktop */
+  cursor:none;
 }
 
 /* Custom Cursor */
@@ -47,17 +47,30 @@ body{
 
 /* Background Animations */
 .bg, .bg2, .bg3{
-  position:fixed; inset:0;
+  position:fixed;
+  inset:0;
   pointer-events:none;
 }
 
 .bg{
-  background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(255,43,43,.06) 2px,rgba(255,43,43,.06) 3px);
+  background:repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 2px,
+    rgba(255,43,43,.06) 2px,
+    rgba(255,43,43,.06) 3px
+  );
   animation:drift 25s linear infinite;
 }
 
 .bg2{
-  background:repeating-linear-gradient(90deg,transparent 0,transparent 2px,rgba(255,43,43,.04) 2px,rgba(255,43,43,.04) 3px);
+  background:repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 2px,
+    rgba(255,43,43,.04) 2px,
+    rgba(255,43,43,.04) 3px
+  );
   animation:drift2 35s linear infinite;
   opacity:.6;
 }
@@ -81,7 +94,7 @@ body{
   padding:0 20px;
 }
 
-/* Animated Ring */
+/* Core Ring */
 .core{
   width:120px;
   height:120px;
@@ -92,8 +105,8 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+  padding:10px;
   animation:pulse 2s infinite, floaty 4s ease-in-out infinite;
-  position:relative;
 }
 
 @keyframes pulse{
@@ -106,17 +119,19 @@ body{
   50%{transform:translateY(-8px)}
 }
 
+/* Circular Logo */
 .core img{
-  width:58px;
-  height:58px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 12px var(--glow));
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  box-shadow:0 0 18px var(--glow);
   animation:logoGlow 2s infinite;
 }
 
 @keyframes logoGlow{
-  0%,100%{filter:drop-shadow(0 0 12px var(--glow))}
-  50%{filter:drop-shadow(0 0 25px var(--glow))}
+  0%,100%{box-shadow:0 0 12px var(--glow)}
+  50%{box-shadow:0 0 28px var(--glow)}
 }
 
 /* Text */
@@ -150,7 +165,7 @@ body{
   margin-bottom:30px;
 }
 
-/* captcha container */
+/* captcha */
 .challenge{
   display:flex;
   justify-content:center;
@@ -158,7 +173,7 @@ body{
   margin-bottom:30px;
 }
 
-/* status bar */
+/* status */
 .status{
   font-size:11px;
   letter-spacing:2px;
@@ -189,9 +204,8 @@ body{
 <div class="bg3"></div>
 
 <div class="center">
-  <!-- Core Ring + Logo -->
   <div class="core">
-    <img src="/assets/eiro.png" alt="SpiderCloud">
+    <img src="/assets/eiro.png" alt="SpiderCloud Logo">
   </div>
 
   <div class="brand">SpiderCloud</div>
@@ -202,7 +216,6 @@ body{
     This process usually completes within a few seconds.
   </div>
 
-  <!-- REQUIRED BY CLOUDFLARE -->
   <div class="challenge">
     ::CAPTCHA_BOX::
   </div>
@@ -218,13 +231,12 @@ body{
   </div>
 </div>
 
-<!-- Custom Cursor -->
 <div class="cursor" id="cursor"></div>
 
 <script>
-const cursor=document.getElementById('cursor');
-document.addEventListener('mousemove', e=>{
-  cursor.style.transform=`translate(${e.clientX}px, ${e.clientY}px)`;
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
 });
 </script>
 
