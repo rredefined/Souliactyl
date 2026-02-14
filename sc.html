@@ -7,11 +7,12 @@
 
 <style>
 :root{
-  --bg:#ffffff;
-  --text:#0b0b0b;
-  --dim:rgba(0,0,0,.6);
-  --border:rgba(0,0,0,.15);
-  --shadow:rgba(0,0,0,.15);
+  --bg:#000000;
+  --panel:#050505;
+  --text:#ffffff;
+  --dim:rgba(255,255,255,.65);
+  --border:rgba(255,255,255,.25);
+  --glow:rgba(255,255,255,.55);
 }
 
 /* Base */
@@ -33,18 +34,32 @@ body{
   position:fixed;
   inset:0;
   background:
-    repeating-linear-gradient(0deg,transparent 0,transparent 12px,rgba(0,0,0,.04) 12px,rgba(0,0,0,.05) 13px),
-    repeating-linear-gradient(90deg,transparent 0,transparent 12px,rgba(0,0,0,.04) 12px,rgba(0,0,0,.05) 13px);
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 12px,
+      rgba(255,255,255,.035) 12px,
+      rgba(255,255,255,.04) 13px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 12px,
+      rgba(255,255,255,.035) 12px,
+      rgba(255,255,255,.04) 13px
+    );
   z-index:-1;
 }
 
 /* Card */
 .card{
   width:min(720px,95%);
-  background:#fff;
+  background:var(--panel);
   border:1px solid var(--border);
-  box-shadow:0 20px 60px var(--shadow);
-  padding:44px 28px 30px;
+  box-shadow:
+    0 0 40px rgba(255,255,255,.08),
+    0 0 80px rgba(255,255,255,.05);
+  padding:46px 28px 30px;
   text-align:center;
   position:relative;
 }
@@ -54,7 +69,8 @@ body{
   content:"";
   position:absolute;
   width:22px;height:22px;
-  border:2px solid rgba(0,0,0,.4);
+  border:2px solid var(--text);
+  box-shadow:0 0 12px var(--glow);
 }
 .card::before{top:14px;left:14px;border-right:0;border-bottom:0}
 .card::after{bottom:14px;right:14px;border-left:0;border-top:0}
@@ -64,7 +80,8 @@ body{
   width:110px;height:110px;
   margin:0 auto 18px;
   border-radius:50%;
-  border:2px solid rgba(0,0,0,.45);
+  border:2px solid var(--text);
+  box-shadow:0 0 25px var(--glow);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -79,6 +96,7 @@ body{
   width:100%;height:100%;
   border-radius:50%;
   object-fit:cover;
+  box-shadow:0 0 18px var(--glow);
 }
 
 /* Text */
@@ -87,6 +105,7 @@ body{
   font-weight:900;
   letter-spacing:4px;
   text-transform:uppercase;
+  text-shadow:0 0 18px var(--glow);
 }
 .subtitle{
   font-size:12px;
@@ -114,7 +133,8 @@ body{
   font-size:11px;
   letter-spacing:2px;
   text-transform:uppercase;
-  opacity:.75;
+  opacity:.8;
+  text-shadow:0 0 10px var(--glow);
 }
 
 /* Meta */
@@ -127,7 +147,7 @@ body{
 
 /* Discord + credit */
 .bottom-row{
-  margin-top:20px;
+  margin-top:22px;
   display:flex;
   gap:14px;
   align-items:center;
@@ -139,18 +159,20 @@ body{
   display:inline-flex;
   align-items:center;
   gap:10px;
-  padding:10px 14px;
-  border:1px solid var(--border);
+  padding:10px 16px;
+  border:1px solid var(--text);
   border-radius:10px;
   text-decoration:none;
   color:#000;
+  background:#fff;
   font-size:13px;
   font-weight:600;
+  box-shadow:0 0 18px var(--glow);
   transition:all .15s ease;
 }
 .discord-btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 10px 24px rgba(0,0,0,.15);
+  transform:translateY(-2px);
+  box-shadow:0 0 28px var(--glow);
 }
 
 .discord-icon{
@@ -164,7 +186,8 @@ body{
   color:var(--dim);
 }
 .dev-credit strong{
-  color:#000;
+  color:#fff;
+  text-shadow:0 0 10px var(--glow);
   font-weight:800;
 }
 </style>
